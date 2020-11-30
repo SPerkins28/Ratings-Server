@@ -1,8 +1,8 @@
 const db = require('../db');
+const {DataTypes} = require('sequelize');
 
 
-module.exports = (sequelize, DataTypes) => {
-    const post = sequelize.define('post', {
+const Post = db.define ('post',  {
         title: {
             type: DataTypes.STRING,
             allowNull: false
@@ -15,9 +15,12 @@ module.exports = (sequelize, DataTypes) => {
             type: DataTypes.STRING,
             allowNull: false
         },
-        owner: {
-            type: DataTypes.INTEGER
+        rating: {
+            type: DataTypes.INTEGER,
+            allowNull: false,
+            validate: {
+                max: 4
+            }
         }
-    })
-    return post;
-};
+    });
+    module.exports = Post;

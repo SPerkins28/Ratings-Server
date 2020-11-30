@@ -1,32 +1,34 @@
 const router = require("express").Router();
 const { Post } = require("../models/post");
 const validateSession = require('../middleware/validateSession')
-const bcrypt = require("bcryptjs");
-const jwt = require("jsonwebtoken");
+
 
 
 //* UPDATE
-router.put("/update/", validateSession, function (req, res) {
+router.put("/update/:id", validateSession, async (req, res) => {
     const updatePostEntry = {
         title: req.body.post.title,
         date: req.body.post.date,
         entry: req.body.post.entry,
+        rating: req.body.post.rating
     };
+
+    const query = { where: { id: req.params.id, owner: req.user.id } };
   
-    const query = { where: { id: req.params.entryId, owner: req.user.id } };
-  
-    post.update(updatePostEntry, query)
-        .then((post) => res.status(200).json(post))
+    Post.update(updatePostEntry, query)
+        .then((posts) => res.status(200).json({
+            updatePostEntry,
+            message: "Rating successfully updated!"}))
         .catch((err) => res.status(500).json({ error: err}));
-  });
+});
   
   //* DELETE
   
-  router.delete("/delete/", validateSession, function (req, res) {
+  router.delete("/delete/:id", validateSession, async(req, res) => {
     const query = { where: {id: req.params.id, owner: req.user.id } };
   
     Post.destroy(query)
-        .then(() => res.status(200).json({message: "Entry Removed" }))
+        .then(() => res.status(200).json({message: "Rating Removed" }))
         .catch((err) => res.status(500).json({error: err}));
   });
   
