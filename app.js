@@ -13,7 +13,11 @@ const validateSession = require('./middleware/validateSession');
 app.use(express.json());
 
 app.use("/user", controllers.usercontroller);
+
 app.use("/post", post);
+
+app.use('/review', controllers.reviewcontroller);
+
 
 db.authenticate()
 .then(() => db.sync())

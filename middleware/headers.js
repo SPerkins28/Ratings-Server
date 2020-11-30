@@ -7,4 +7,4 @@ module.exports = (req, res, next) => {
     ); // is used in the response to a preflight request to indicate which HTTP headers can be used during the actual request
   
     next();
-  };
+  }
