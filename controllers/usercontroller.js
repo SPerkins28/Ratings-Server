@@ -7,14 +7,14 @@ const { UniqueConstraintError } = require("sequelize/lib/errors");
 
 /* SIGN UP */
 router.post("/signup", async (req, res) => {
-  let { firstName, lastName, email, username, password } = req.body;
+  let { firstName, lastName, email, password } = req.body;
+  console.log(req.body);
 
   try {
     const newUser = await User.create({
       firstName,
       lastName,
       email,
-      username,
       password: bcrypt.hashSync(password, 13),
     });
     res.status(201).json({
@@ -37,6 +37,7 @@ router.post("/signup", async (req, res) => {
 /* LOGIN */
 router.post("/login", async (req, res) => {
   let { email, password } = req.body;
+  console.log(req.body);
 
   try {
     let loginUser = await User.findOne({
@@ -53,7 +54,7 @@ router.post("/login", async (req, res) => {
       res.status(200).json({
         message: "Login Successful!",
         user: loginUser,
-        token,
+        sessionToken: token,
       });
     } else {
       res.status(401).json({
@@ -68,4 +69,6 @@ router.post("/login", async (req, res) => {
 });
 
 
+
 module.exports = router;
+

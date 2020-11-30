@@ -6,13 +6,18 @@ const app = express();
 app.use(require('./middleware/headers'));
 
 const controllers = require('./controllers');
+let post = require ('./controllers/postcontroller');
 
 const validateSession = require('./middleware/validateSession');
 
 app.use(express.json());
 
-app.use('/review', controllers.reviewcontroller);
 app.use("/user", controllers.usercontroller);
+
+app.use("/post", post);
+
+app.use('/review', controllers.reviewcontroller);
+
 
 db.authenticate()
 .then(() => db.sync())
